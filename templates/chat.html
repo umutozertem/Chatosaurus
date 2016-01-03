@@ -1,0 +1,83 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+	    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            var socket;
+            $(document).ready(function(){
+                socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
+                socket.on('connect', function() {
+                    socket.emit('joined', {});
+                });
+                socket.on('status', function(data) {
+                    $('#chat').val($('#chat').val() + '<' + data.msg + '>\n');
+                    $('#chat').scrollTop($('#chat')[0].scrollHeight);
+                });
+                socket.on('message', function(data) {
+                    $('#chat').val($('#chat').val() + data.msg + '\n');
+                    $('#chat').scrollTop($('#chat')[0].scrollHeight);
+                });
+				socket.on('active', function(data) {
+                    $('#active').val(data.msg + '\n');
+                });
+
+                $('#text').keypress(function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code == 13) {
+						send_message()
+                    }
+                });
+            });
+			function send_message(){
+				var text = $('#text').val();
+				//add comment later
+				if (text !== ''){
+					$('#text').val('');
+					socket.emit('text', {msg: text});
+				}
+			}
+            function leave_room() {
+				if (/^\/chat/.test(window.location.pathname)){
+					socket.emit('left', {}, function() {
+						socket.disconnect();
+						
+					});
+				}
+            }
+        </script>
+
+		<style> .active-box textarea {padding-top: 30px;} .h5{position: absolute; padding: 0px 10px; font-weight: bold}
+		@media screen and (max-width: 480px) {textarea {max-height: 200px !important; font-size:12px !important} #text {font-size:14px !important}} 
+		textarea {height:400px !important}
+		</style>
+        <h1>Chatosourus: {{ room }}</h1>
+		<form class="form-inline">
+			<div class="inner-form row">
+				<div class="active-box col-xs-6 col-sm-3">
+					<div class="h5">Logged-in Users</div>
+					<textarea id="active" class="form-control" style="width:100%" readonly></textarea>
+				</div>
+				<div class="chat-main col-xs-6 col-sm-9">
+					<textarea id="chat" class="form-control" style="width:100%" readonly></textarea>
+				</div>
+			</div>
+		</form>
+		<br>
+		<div style="width:100%">
+			<div class="col-lg-12">
+				<div class="input-group input-group-lg">
+					  <input id="text" class="form-control" placeholder="Enter your message...">
+					  
+					  <span class="input-group-btn">
+						<a href="#" onclick="send_message();">
+						<button class="btn btn-lg" type="button">
+							<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+						</button>
+						</a>
+					  </span>
+
+				</div><!-- /input-group -->
+			</div><!-- /.col-lg-6 -->
+		</div><!-- /.row -->
+{% endblock %}

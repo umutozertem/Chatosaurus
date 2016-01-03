@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<meta charset="utf-8">
+	<title>Chatosaurus!</title>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<style>.header-right {padding-top: 20px;} .header-right a {display: inline-block; margin-left: 10px;} .navbar-header img {max-width:80px; margin-top: 5px; margin-left:15px;}
+	</style>
+</head>
+<header>
+	
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>	
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+
+	<div class = "container-fluid">
+			<a class="navbar-header" href="/" onclick="leave_room();" style="float:left">
+			<img src="{{url_for('static', filename='images/chatlogo.png') }}">
+			</a>
+	<!-- 		<h1>Chatosaurus</h1> -->
+		
+	
+		
+		<div class="header-right" style="text-align:right">
+			<div class="container-fluid">
+			
+<!-- 			session comes from flask, we don't need to send it in ourselves. amazing... -->
+			{% if session.logged_in %}
+				{% if '/chat/' not in request.url%}
+				<a href="/chat/" onclick="leave_room();"><button type="button"  class="btn btn-primary" aria-label="Left Align" >
+				  <span class="glyphicon glyphicon-console" aria-hidden="true"></span> Go to Lobby
+				</button></a>
+				{% endif %}
+			<a href="/profile/" onclick="leave_room();"> <span class="glyphicon glyphicon-user"></span> hi, {{session.name}}</a>
+			<a href="/logout/" onclick="leave_room();"> <span class="glyphicon glyphicon-log-out"></span> Logout</a>			
+			
+			{% else %}
+				{% if '/chat/' not in request.url%}
+				<a href="/chat/"><button type="button" class="btn btn-primary" aria-label="Left Align">
+				  <span class="glyphicon glyphicon-console" aria-hidden="true"></span> Start Chatting as Guest
+				</button></a>
+				{% endif %}
+			<a href="/register/"> <span class="glyphicon glyphicon-pencil"></span> Sign up </a>
+			<a href="/login/"> <span class="glyphicon glyphicon-log-in"></span> Login </a>
+			{% endif %}
+			</div>
+		</div>
+	
+	</div>
+</header>
+
+<body>
+	<div class='border-row' style='width:100%; margin-bottom: 15px;'></div>
+	<div class='container-fluid' align='center' style='min-height:100% width:80%'>	
+
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				{% for message in messages %}
+					 <div class="alert alert-warning alert-dismissible" role="alert">
+					 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+						{{message}}
+					 </div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+	
+	{% block body %}{% endblock %}
+	
+	</div>
+	
+</body>
+</html>
+

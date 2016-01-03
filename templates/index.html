@@ -1,0 +1,51 @@
+{% extends "header.html" %}
+
+{% block body %}
+<div>
+	<h1>Welcome to Chatosaurus!</h1>
+	<div class='border-row' style='width:100%; margin-bottom: 15px;'></div>
+	
+	<div class='panel panel-primary' align='left' style='width:80%'>
+		<div class="panel-heading">
+		<h3 class="panel-title">What is this?</h3>
+		</div>
+		<div class="panel-body">
+		This chat application project is my first attempt to learn about how web sockets work. It is based on the following :
+		<ul>
+			<p><li><a href='http://flask.pocoo.org'>Flask</a> (also <a href='http://flask.pocoo.org/docs/latest/patterns/wtforms'>WTForms</a>, <a href='http://jinja.pocoo.org'>Jinja</a> templating etc.): When I decided to do this project I read about Django and Flask, and ended up picking the latter. Django seemed a bit too high-level for me (a beginner), a lot of features come built-in and you don't -need to- understand everything. On the other hand, Flask has a bare-bones approach and you explicitly write down all your route functions yourself, handle exceptions, do redirections, write your decorator functions to handle the repeating patterns. This yields better understanding of the concepts and anyone that knows Python can easily understand everything that is happening and why it is happening. Plus, the official flask documentation is very nice and concise. It took me less than an hour to see that it had everything I need (and a lot more) so I said why not.
+			</li></p>
+			<p><li><a href="http://socket.io/">Socket.IO</a> and <a href="https://flask-socketio.readthedocs.org">Flask-SocketIO</a>: To do the communications between the server and the clients Socket.IO seems the way to go. While going over the <a href="http://www.amazon.com/Flask-Web-Development-Developing-Applications/dp/1449372627">Flask Web Development</a> book, I found the author of the book himself has a Python package for Socket.IO integration into Flask applications. Flask-SocketIO documentation is also very nice and concise.</p>
+			<p><li><a href="http://mysql-python.sourceforge.net/MySQLdb.html">python-MySQLdb</a>: I added the mysql connection to learn about how to work with databases in the web application. It felt this plays well with the chat app; you keep an account of registered users and their chat logs.</p>
+			<p><li><a href="https://pypi.python.org/pypi/passlib">Python Passlib</a>: If I am asking people to register, I thought I might as well store an encrypted password.</p>
+			<p><li><a href="http://getbootstrap.com/">Bootstrap</a>: When I did the first version of this app, it looked like 1996. Bootstrap takes no time to integrate and looks a lot better.</p>
+		</ul>
+		</div>
+		<div class="panel-footer">If there is no link to the source code I must be busy cleaning it up. I will put it right over here.</div>
+	</div>
+	
+	<div class='panel panel-primary' align='left' style='width:80%'>
+		<div class="panel-heading">
+		<h3 class="panel-title">What is there and what is coming?</h3>
+		</div>
+		<div class="panel-body">
+		The following functionality should be available:
+		<ul>
+			<p><li>Go to the chat room directly with an auto-generated guest user name.</p>
+			<p><li>Register/login to go to the chat room with your user name. When you register/login the header should change accordingly.</p>
+			<p><li>Chat room shows the current logged in users in the room on the right hand side.</li></p>
+			<p><li>When logged in, go to your profile page to see your recent chat logs. Chat logs of the guest users are also logged if a registered user is with them in the same room, so that a registered user can retrieve all their chat logs with all users. If all the active users in the room are guests, there is no logging. </p>
+		</ul>
+		Tentative to-do list:
+		<ul>
+			<p><li>Make it look better, especially on the mobile.</li></p>
+			<p><li>Lobby is the only room so far. Allow the logged in users to select the room to join.</p>
+			<p><li>Show current room list and the number of users in each room on the chat room page.</p>
+			<p><li>Show whether a user is typing or not. This sounds interesting because typing is a continuous event. All events I handled so far were all discrete events (join or leave a room, send a message). What do you do with a continuous event? Do you do something like "catch the event, emit, sleep 1 second before checking it again" or is there a better way?</p>
+			<p><li>Allow the user to search within the chat logs, filter by room and user. Some grouping/organization while displaying these to the user.</p>
+		</ul>
+		
+		</div>
+	</div>
+
+</div>
+{% endblock %}

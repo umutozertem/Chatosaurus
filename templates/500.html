@@ -1,0 +1,15 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+	<h1>five hundred! <h1>
+
+	<a href="/chat/">
+		<img style ="max-width:200px; margin-top: 5px;" src="{{url_for('static', filename='images/500.gif') }}">
+	</a>
+
+<!-- 	remove error message after debugging things...it's like hacker invitation... who would bother hacking this but anyway... -->
+	<h5>  error: {{error}} <h5>
+
+
+{% endblock %}

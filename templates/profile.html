@@ -1,0 +1,33 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+	<div class='panel panel-primary' align='left' style='width:80%'>
+		<div class="panel-heading">
+		<h3 class="panel-title">Welcome to your profile page, {{user.username}}!</h3>
+		</div>
+		
+		<div class="panel-body">
+		You are registered since: {{user.registered_time_displayform}}.
+		</div>
+		{% if user.chatlog %}
+			<div align='center'>
+			<div class='panel' align='left' style='width:95%'>
+				<div class="panel-heading">
+				<h3 class="panel-title">Your recent chat logs:</h3>
+				</div>
+			
+				<ul class="list-group">
+				{% for log in user.chatlog %}
+				<li class="list-group-item">{{log.1}} ({{log.5}} - {{log.3}}): {{log.4}}</li>
+				{% endfor %}
+				</ul>
+			</div>
+			</div>
+		{% else%}
+			<div class="well well-sm"> No chat logs to display yet. </div>
+		{% endif %}
+
+	</div>
+
+{% endblock %}
